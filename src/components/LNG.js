@@ -230,7 +230,7 @@ function LNG() {
         </div>
 
         {/* Floating LNG stats (hidden on mobile) */}
-        <div className="hidden sm:block absolute top-10 sm:top-20 left-6 sm:left-10 md:left-20 animate-pulse">
+        <div className="hidden sm:block absolute top-20 sm:top-32 left-6 sm:left-10 md:left-20 animate-pulse">
           <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-3 sm:p-4 transform rotate-12 hover:rotate-6 transition-transform duration-500">
             <Thermometer className="w-5 sm:w-6 h-5 sm:h-6 text-cyan-400 mb-2" />
             <p className="text-xs sm:text-sm">-162°C Storage</p>
@@ -244,7 +244,7 @@ function LNG() {
           </div>
         </div>
 
-        <div className="hidden sm:block absolute bottom-10 sm:bottom-20 left-1/4 animate-pulse delay-500">
+        <div className="hidden sm:block absolute bottom-10 sm:bottom-20 left-32 animate-pulse delay-500">
           <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-3 sm:p-4 transform rotate-6 hover:rotate-3 transition-transform duration-500">
             <Ship className="w-5 sm:w-6 h-5 sm:h-6 text-indigo-400 mb-2" />
             <p className="text-xs sm:text-sm">Global Transport</p>

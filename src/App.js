@@ -7,17 +7,21 @@ import CryoGenics from './components/Cryogenics';
 import ProjectCaseStudies from './components/ProjectCaseStudies';
 import LNG from './components/LNG';
 import Hydrogen from './components/Hydrogen';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<> <Home /> </>} />
-      <Route path="/contact" element={<Contact />} />
-      <Route path="/CryoGenics" element={<CryoGenics />} />
-      <Route path="/PCS" element={<ProjectCaseStudies />} />
-          <Route path="/LNG" element={<LNG />} />
-             <Route path="/Hydrogen" element={<Hydrogen />} />
-    </Routes>
+    <>
+      <ScrollToTop />  {/* 👈 No Router here, just this */}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/CryoGenics" element={<CryoGenics />} />
+        <Route path="/PCS" element={<ProjectCaseStudies />} />
+        <Route path="/LNG" element={<LNG />} />
+        <Route path="/Hydrogen" element={<Hydrogen />} />
+      </Routes>
+    </>
   );
 }
 

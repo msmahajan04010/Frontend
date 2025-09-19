@@ -62,7 +62,7 @@ function CryoGenics() {
         </div>
 
         {/* Floating expertise cards (hidden on mobile) */}
-        <div className="hidden sm:block absolute top-10 sm:top-10 left-6 sm:left-10 md:left-20 animate-pulse">
+        <div className="hidden sm:block absolute top-20 sm:top-32 left-6 sm:left-10 md:left-20 animate-pulse">
           <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-3 sm:p-4 transform rotate-12 hover:rotate-6 transition-transform duration-500">
             <Thermometer className="w-5 sm:w-6 h-5 sm:h-6 text-blue-400 mb-2" />
             <p className="text-xs sm:text-sm">Ultra-Low Temps</p>
@@ -76,12 +76,21 @@ function CryoGenics() {
           </div>
         </div>
 
-        <div className="hidden sm:block absolute bottom-10 sm:bottom-20 left-1/4 animate-pulse delay-500">
+        <div className="hidden sm:block absolute bottom-10 sm:bottom-20 left-12 animate-pulse delay-500">
           <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-3 sm:p-4 transform rotate-6 hover:rotate-3 transition-transform duration-500">
             <Microscope className="w-5 sm:w-6 h-5 sm:h-6 text-teal-400 mb-2" />
             <p className="text-xs sm:text-sm">Research & Analysis</p>
           </div>
         </div>
+
+        <div className="hidden sm:block absolute bottom-10 sm:bottom-20 right-20 animate-pulse delay-500">
+          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-3 sm:p-4 transform -rotate-12 hover:-rotate-6 transition-transform duration-500">
+            <TestTube className="w-5 sm:w-6 h-5 sm:h-6 text-cyan-400 mb-2" />
+            <p className="text-xs sm:text-sm">consultancy</p>
+          </div>
+        </div>
+
+            
       </div>
 
       {/* Cryogenics Expertise Section */}

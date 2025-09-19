@@ -134,7 +134,7 @@ function Hydrogen() {
       description: 'High-temperature processes in steel and chemical industries',
       icon: Factory,
       benefits: ['High temperature', 'Clean burning', 'Process flexibility'],
-      image: '/industrial.jfif'
+      image: '/Industrial.jfif'
     },
     {
       title: 'Power Generation',
@@ -256,7 +256,7 @@ function Hydrogen() {
         </div>
 
         {/* Floating hydrogen stats */}
-        <div className="absolute top-20 left-10 md:left-20 animate-pulse">
+        <div className="absolute top-32 left-10 md:left-20 animate-pulse">
           <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-4 transform rotate-12 hover:rotate-6 transition-transform duration-500">
             <Thermometer className="w-6 h-6 text-green-400 mb-2" />
             <p className="text-sm">-253°C Storage</p>

@@ -256,7 +256,7 @@ function Contact() {
                     <div>
                       <h4 className="font-semibold text-white mb-1 text-sm sm:text-base">Email Us</h4>
                       <p className="text-gray-400 text-xs sm:text-sm">contact@icicon-consulting.com</p>
-                      <p className="text-gray-400 text-xs sm:text-sm">mayankvadher77@gmail.com</p>
+                      <p className="text-gray-400 text-xs sm:text-sm">johndoe77@gmail.com</p>
                     </div>
                   </div>
 
@@ -277,8 +277,8 @@ function Contact() {
                     </div>
                     <div>
                       <h4 className="font-semibold text-white mb-1 text-sm sm:text-base">Visit Us</h4>
-                      <p className="text-gray-400 text-xs sm:text-sm">LaxmiDham Society, Near Vakil Soc</p>
-                      <p className="text-gray-400 text-xs sm:text-sm">Surendranagar, Gujarat, India - 363001</p>
+                      <p className="text-gray-400 text-xs sm:text-sm">1450 Market Street, Suite 2300</p>
+                      <p className="text-gray-400 text-xs sm:text-sm">San Francisco, CA 94103, USA</p>
                     </div>
                   </div>
                 </div>
