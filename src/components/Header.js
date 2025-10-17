@@ -11,13 +11,16 @@ function Header() {
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 flex justify-between items-center p-4 sm:p-6 md:p-8 bg-white/80 backdrop-blur-lg border-b border-slate-200 shadow-sm">
-      <div className="flex items-center">
-        <img
-          src="/clogo.png"
-          alt="IcICon Consulting Logo"
-          className="h-8 sm:h-10 w-auto object-contain"
-        />
-      </div>
+   <div className="flex items-center">
+  <Link to="/">
+    <img
+      src="/clogo.png"
+      alt="IcICon Consulting Logo"
+      className="h-8 sm:h-10 w-auto object-contain cursor-pointer"
+    />
+  </Link>
+</div>
+
 
       {/* Desktop Navigation */}
       <div className="hidden md:flex space-x-6 lg:space-x-8">
