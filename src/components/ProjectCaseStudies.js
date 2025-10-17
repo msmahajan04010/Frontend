@@ -6,10 +6,10 @@ import Footer from './Footer';
 const MetricBar = React.memo(({ value, label, color }) => (
   <div className="mb-3 sm:mb-4">
     <div className="flex justify-between text-xs sm:text-sm mb-1">
-      <span className="text-gray-300">{label}</span>
-      <span className={`text-${color}-400 font-semibold`}>{value}%</span>
+      <span className="text-slate-600">{label}</span>
+      <span className={`font-semibold text-${color}-600`}>{value}%</span>
     </div>
-    <div className="w-full bg-gray-700 rounded-full h-1.5 sm:h-2">
+    <div className="w-full bg-slate-200 rounded-full h-1.5 sm:h-2">
       <div
         className={`bg-gradient-to-r from-${color}-500 to-${color}-400 h-1.5 sm:h-2 rounded-full transition-all duration-1000`}
         style={{ width: `${value}%` }}
@@ -21,6 +21,7 @@ const MetricBar = React.memo(({ value, label, color }) => (
 function ProjectCaseStudies() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
+  const [showContent, setShowContent] = useState(false);
   const [activeFilter, setActiveFilter] = useState('all');
   const [selectedCase, setSelectedCase] = useState(null);
 
@@ -29,7 +30,9 @@ function ProjectCaseStudies() {
   }, []);
 
   useEffect(() => {
-    setIsVisible(true);
+    // Opening animation sequence
+    const timer1 = setTimeout(() => setIsVisible(true), 300);
+    const timer2 = setTimeout(() => setShowContent(true), 800);
 
     // Disable mouse-following effect on mobile for performance
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
@@ -38,12 +41,20 @@ function ProjectCaseStudies() {
         setMousePosition({ x: e.clientX, y: e.clientY });
       };
       window.addEventListener('mousemove', handleMouseMove);
-      return () => window.removeEventListener('mousemove', handleMouseMove);
+      return () => {
+        window.removeEventListener('mousemove', handleMouseMove);
+        clearTimeout(timer1);
+        clearTimeout(timer2);
+      };
     }
+
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+    };
   }, []);
 
   const caseStudies = [
- 
     {
       id: 2,
       title: "Hydrogen Production Facility",
@@ -72,7 +83,6 @@ function ProjectCaseStudies() {
         timeline: 95
       }
     },
-  
     {
       id: 4,
       title: "Food Processing Cryogenic System",
@@ -174,12 +184,12 @@ function ProjectCaseStudies() {
     : caseStudies.filter(cs => cs.category === activeFilter);
 
   return (
-    <div className="min-h-screen bg-black text-white overflow-hidden relative">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 text-slate-900 overflow-hidden relative">
       {/* Animated gradient background */}
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-cyan-900/20 to-teal-900/20"></div>
+      <div className="absolute inset-0 opacity-40">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-100/50 via-cyan-100/50 to-teal-100/50"></div>
         <div
-          className="hidden md:block absolute w-96 h-96 rounded-full bg-gradient-to-r from-blue-500/10 to-cyan-500/10 blur-3xl transition-all duration-1000 ease-out"
+          className="hidden md:block absolute w-96 h-96 rounded-full bg-gradient-to-r from-blue-400/20 to-cyan-400/20 blur-3xl transition-all duration-1000 ease-out"
           style={{
             left: mousePosition.x - 192,
             top: mousePosition.y - 192,
@@ -187,34 +197,53 @@ function ProjectCaseStudies() {
         ></div>
       </div>
 
+      {/* Opening animation overlay */}
+      <div 
+        className={`fixed inset-0 bg-white z-50 transition-all duration-1000 ${
+          isVisible ? 'opacity-0 pointer-events-none' : 'opacity-100'
+        }`}
+      >
+        <div className="flex items-center justify-center h-full">
+          <div className="text-center">
+            <div className="animate-pulse">
+              <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-cyan-600 via-blue-600 to-teal-600 bg-clip-text text-transparent">
+                Case Studies
+              </h1>
+              <p className="text-xl text-slate-600 mt-4">Project Portfolio</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <Header />
 
       {/* Header Section */}
-         <div className="relative z-10 flex flex-col items-center justify-center min-h-[100vh] px-6 text-center pt-24">
-        <div className={`transform transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-          <div className="mb-6 inline-flex items-center px-4 py-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-full">
-            <Droplets className="w-4 h-4 text-cyan-400 mr-2" />
-            <span className="text-sm">Proven Excellence in Engineerings</span>
+      <div className={`relative z-10 flex flex-col items-center justify-center min-h-[70vh] px-6 text-center pt-24 transition-all duration-1000 ${
+        showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+      }`}>
+        <div>
+          <div className="mb-6 inline-flex items-center px-4 py-2 bg-white/80 backdrop-blur-sm border border-blue-200 rounded-full shadow-sm">
+            <Droplets className="w-4 h-4 text-cyan-600 mr-2" />
+            <span className="text-sm text-slate-700">Proven Excellence in Engineering</span>
           </div>
 
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight">
-            <span className="block">Project</span>
-            <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400 bg-clip-text text-transparent">
+            <span className="block text-slate-900">Project</span>
+            <span className="bg-gradient-to-r from-cyan-600 via-blue-600 to-teal-600 bg-clip-text text-transparent">
               Case Studies
             </span>
           </h1>
 
-            <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-6 sm:mb-8">
-              Explore our portfolio of successful engineering projects across cryogenic systems, industrial processes, and specialized applications
-            </p>
-          </div>
+          <p className="text-base sm:text-lg md:text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
+            Explore our portfolio of successful engineering projects across cryogenic systems, industrial processes, and specialized applications
+          </p>
         </div>
-      
+      </div>
 
       {/* Filter Section */}
       <div className="relative z-10 px-4 sm:px-6 mb-8 sm:mb-12">
         <div className="max-w-6xl mx-auto">
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-6">
+          <div className="bg-white/80 backdrop-blur-sm border border-blue-200 rounded-2xl p-4 sm:p-6 shadow-lg">
             <div className="flex flex-col sm:flex-wrap sm:flex-row gap-2 sm:gap-3">
               {categories.map((category) => (
                 <button
@@ -222,14 +251,18 @@ function ProjectCaseStudies() {
                   onClick={() => setActiveFilter(category.id)}
                   className={`flex items-center px-4 py-2 rounded-full transition-all duration-300 min-h-[44px] ${
                     activeFilter === category.id
-                      ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white'
-                      : 'bg-white/5 hover:bg-white/10 text-gray-300'
+                      ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-lg'
+                      : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
                   }`}
                   aria-label={`Filter by ${category.name}`}
                 >
                   <category.icon className="w-4 h-4 mr-2" />
                   <span className="font-medium text-xs sm:text-sm">{category.name}</span>
-                  <span className="ml-2 text-xs bg-white/20 px-2 py-1 rounded-full">
+                  <span className={`ml-2 text-xs px-2 py-1 rounded-full ${
+                    activeFilter === category.id 
+                      ? 'bg-white/20 text-white' 
+                      : 'bg-slate-300 text-slate-700'
+                  }`}>
                     {category.count}
                   </span>
                 </button>
@@ -246,8 +279,8 @@ function ProjectCaseStudies() {
             {filteredCases.map((caseStudy, index) => (
               <div
                 key={caseStudy.id}
-                className={`group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden hover:bg-white/10 transition-all duration-500 transform hover:scale-[1.02] ${
-                  isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+                className={`group bg-white/80 backdrop-blur-sm border border-blue-200 rounded-2xl overflow-hidden hover:bg-white hover:shadow-2xl transition-all duration-500 transform hover:scale-[1.02] ${
+                  showContent ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
                 }`}
                 style={{ transitionDelay: `${index * 100}ms` }}
               >
@@ -261,15 +294,15 @@ function ProjectCaseStudies() {
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
                   <div className="absolute top-3 sm:top-4 left-3 sm:left-4">
-                    <span className="px-2 sm:px-3 py-1 bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-xs sm:text-sm font-medium rounded-full">
+                    <span className="px-2 sm:px-3 py-1 bg-gradient-to-r from-cyan-600 to-blue-600 text-white text-xs sm:text-sm font-medium rounded-full">
                       {caseStudy.industry}
                     </span>
                   </div>
                   <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 right-3 sm:right-4">
                     <h3 className="text-lg sm:text-xl font-bold text-white mb-2">{caseStudy.title}</h3>
-                    <div className="flex items-center text-gray-300 text-xs sm:text-sm">
+                    <div className="flex items-center text-white/90 text-xs sm:text-sm">
                       <MapPin className="w-4 h-4 mr-1" />
                       <span className="mr-3 sm:mr-4">{caseStudy.location}</span>
                       <Clock className="w-4 h-4 mr-1" />
@@ -280,35 +313,35 @@ function ProjectCaseStudies() {
 
                 {/* Project Details */}
                 <div className="p-4 sm:p-8">
-                  <p className="text-gray-300 mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">{caseStudy.description}</p>
+                  <p className="text-slate-600 mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">{caseStudy.description}</p>
 
                   {/* Project Stats */}
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
-                    <div className="text-center p-2 sm:p-3 bg-white/5 rounded-lg">
-                      <Users className="w-4 sm:w-5 h-4 sm:h-5 text-cyan-400 mx-auto mb-1" />
-                      <div className="text-xs sm:text-sm text-gray-400">Team Size</div>
-                      <div className="font-semibold text-white text-sm sm:text-base">{caseStudy.teamSize}</div>
+                    <div className="text-center p-2 sm:p-3 bg-blue-50 rounded-lg">
+                      <Users className="w-4 sm:w-5 h-4 sm:h-5 text-cyan-600 mx-auto mb-1" />
+                      <div className="text-xs sm:text-sm text-slate-600">Team Size</div>
+                      <div className="font-semibold text-slate-900 text-sm sm:text-base">{caseStudy.teamSize}</div>
                     </div>
-                    <div className="text-center p-2 sm:p-3 bg-white/5 rounded-lg">
-                      <DollarSign className="w-4 sm:w-5 h-4 sm:h-5 text-green-400 mx-auto mb-1" />
-                      <div className="text-xs sm:text-sm text-gray-400">Budget</div>
-                      <div className="font-semibold text-white text-sm sm:text-base">{caseStudy.budget}</div>
+                    <div className="text-center p-2 sm:p-3 bg-blue-50 rounded-lg">
+                      <DollarSign className="w-4 sm:w-5 h-4 sm:h-5 text-green-600 mx-auto mb-1" />
+                      <div className="text-xs sm:text-sm text-slate-600">Budget</div>
+                      <div className="font-semibold text-slate-900 text-sm sm:text-base">{caseStudy.budget}</div>
                     </div>
-                    <div className="text-center p-2 sm:p-3 bg-white/5 rounded-lg">
-                      <TrendingUp className="w-4 sm:w-5 h-4 sm:h-5 text-blue-400 mx-auto mb-1" />
-                      <div className="text-xs sm:text-sm text-gray-400">Client</div>
-                      <div className="font-semibold text-white text-xs sm:text-sm">{caseStudy.client}</div>
+                    <div className="text-center p-2 sm:p-3 bg-blue-50 rounded-lg">
+                      <TrendingUp className="w-4 sm:w-5 h-4 sm:h-5 text-blue-600 mx-auto mb-1" />
+                      <div className="text-xs sm:text-sm text-slate-600">Client</div>
+                      <div className="font-semibold text-slate-900 text-xs sm:text-sm">{caseStudy.client}</div>
                     </div>
                   </div>
 
                   {/* Technologies */}
                   <div className="mb-4 sm:mb-6">
-                    <h4 className="text-xs sm:text-sm font-semibold text-gray-400 mb-2 sm:mb-3">TECHNOLOGIES USED</h4>
+                    <h4 className="text-xs sm:text-sm font-semibold text-slate-600 mb-2 sm:mb-3">TECHNOLOGIES USED</h4>
                     <div className="flex flex-wrap gap-2">
                       {caseStudy.technologies.map((tech, techIndex) => (
                         <span
                           key={techIndex}
-                          className="px-2 sm:px-3 py-1 bg-white/10 text-gray-300 text-xs sm:text-sm rounded-full border border-white/10"
+                          className="px-2 sm:px-3 py-1 bg-blue-100 text-slate-700 text-xs sm:text-sm rounded-full border border-blue-300"
                         >
                           {tech}
                         </span>
@@ -318,7 +351,7 @@ function ProjectCaseStudies() {
 
                   {/* Performance Metrics */}
                   <div className="mb-4 sm:mb-6">
-                    <h4 className="text-xs sm:text-sm font-semibold text-gray-400 mb-3 sm:mb-4">PROJECT METRICS</h4>
+                    <h4 className="text-xs sm:text-sm font-semibold text-slate-600 mb-3 sm:mb-4">PROJECT METRICS</h4>
                     <MetricBar value={caseStudy.metrics.efficiency} label="Efficiency" color="cyan" />
                     <MetricBar value={caseStudy.metrics.safety} label="Safety Score" color="green" />
                     <MetricBar value={caseStudy.metrics.timeline} label="Timeline Performance" color="blue" />
@@ -327,7 +360,7 @@ function ProjectCaseStudies() {
                   {/* View Details Button */}
                   <button
                     onClick={() => setSelectedCase(caseStudy)}
-                    className="group w-full bg-gradient-to-r from-cyan-500 to-blue-500 px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold hover:from-cyan-400 hover:to-blue-400 transition-all duration-300 flex items-center justify-center min-h-[44px]"
+                    className="group w-full bg-gradient-to-r from-cyan-600 to-blue-600 px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold hover:from-cyan-500 hover:to-blue-500 transition-all duration-300 flex items-center justify-center min-h-[44px] text-white"
                     aria-label={`View case study details for ${caseStudy.title}`}
                   >
                     View Full Case Study
@@ -342,17 +375,17 @@ function ProjectCaseStudies() {
 
       {/* Case Study Modal */}
       {selectedCase && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 sm:p-6">
-          <div className="bg-gray-900 border border-white/10 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 sm:p-6">
+          <div className="bg-white border border-blue-200 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
             <div className="p-4 sm:p-8">
               <div className="flex justify-between items-start mb-4 sm:mb-6">
                 <div>
-                  <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">{selectedCase.title}</h2>
-                  <p className="text-cyan-400 text-sm sm:text-base">{selectedCase.industry} • {selectedCase.location}</p>
+                  <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">{selectedCase.title}</h2>
+                  <p className="text-cyan-600 text-sm sm:text-base font-semibold">{selectedCase.industry} • {selectedCase.location}</p>
                 </div>
                 <button
                   onClick={() => setSelectedCase(null)}
-                  className="text-gray-400 hover:text-white transition-colors duration-300"
+                  className="text-slate-400 hover:text-slate-600 transition-colors duration-300"
                   aria-label="Close case study modal"
                 >
                   <svg className="w-8 sm:w-10 h-8 sm:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -372,25 +405,25 @@ function ProjectCaseStudies() {
                     loading="lazy"
                   />
 
-                  <h3 className="text-lg sm:text-xl font-bold text-white mb-2 sm:mb-3">Challenge</h3>
-                  <p className="text-gray-300 mb-4 sm:mb-6 text-sm sm:text-base">{selectedCase.challenge}</p>
+                  <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-2 sm:mb-3">Challenge</h3>
+                  <p className="text-slate-600 mb-4 sm:mb-6 text-sm sm:text-base">{selectedCase.challenge}</p>
 
-                  <h3 className="text-lg sm:text-xl font-bold text-white mb-2 sm:mb-3">Solution</h3>
-                  <p className="text-gray-300 text-sm sm:text-base">{selectedCase.solution}</p>
+                  <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-2 sm:mb-3">Solution</h3>
+                  <p className="text-slate-600 text-sm sm:text-base">{selectedCase.solution}</p>
                 </div>
 
                 <div>
-                  <h3 className="text-lg sm:text-xl font-bold text-white mb-3 sm:mb-4">Key Results</h3>
+                  <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-3 sm:mb-4">Key Results</h3>
                   <div className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
                     {selectedCase.results.map((result, index) => (
                       <div key={index} className="flex items-start space-x-2 sm:space-x-3">
-                        <CheckCircle className="w-4 sm:w-5 h-4 sm:h-5 text-green-400 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-300 text-sm sm:text-base">{result}</span>
+                        <CheckCircle className="w-4 sm:w-5 h-4 sm:h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                        <span className="text-slate-600 text-sm sm:text-base">{result}</span>
                       </div>
                     ))}
                   </div>
 
-                  <h3 className="text-lg sm:text-xl font-bold text-white mb-3 sm:mb-4">Project Metrics</h3>
+                  <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-3 sm:mb-4">Project Metrics</h3>
                   <div className="space-y-3 sm:space-y-4">
                     <MetricBar value={selectedCase.metrics.efficiency} label="Efficiency" color="cyan" />
                     <MetricBar value={selectedCase.metrics.safety} label="Safety Score" color="green" />
@@ -404,35 +437,34 @@ function ProjectCaseStudies() {
       )}
 
       {/* CTA Section */}
-      <div className="relative z-10 py-12 sm:py-20 px-4 sm:px-6 bg-white/5 backdrop-blur-sm">
+      <div className="relative z-10 py-12 sm:py-20 px-4 sm:px-6 bg-white/60 backdrop-blur-sm">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 sm:mb-8">
-            <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent">
               Ready to Start Your Project?
             </span>
           </h2>
-          <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-6 sm:mb-12 leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-slate-600 mb-8 sm:mb-12 leading-relaxed">
             Let's discuss how our proven expertise can help you achieve exceptional results in your next engineering project
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
-              className="group bg-gradient-to-r from-cyan-500 to-blue-500 px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold hover:from-cyan-400 hover:to-blue-400 transition-all duration-300 transform hover:scale-105 flex items-center justify-center min-h-[44px] min-w-[200px]"
+              className="group bg-gradient-to-r from-cyan-600 to-blue-600 px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold text-white hover:from-cyan-500 hover:to-blue-500 transition-all duration-300 transform hover:scale-105 hover:shadow-xl flex items-center justify-center min-h-[44px] min-w-[200px]"
               aria-label="Discuss your project"
             >
               Discuss Your Project
               <ArrowRight className="ml-2 w-4 sm:w-5 h-4 sm:h-5 group-hover:translate-x-1 transition-transform duration-300" />
             </button>
-        
           </div>
         </div>
       </div>
 
-      {/* Particle effects */}
+      {/* Floating particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(10)].map((_, i) => (
+        {[...Array(15)].map((_, i) => (
           <div
             key={i}
-            className="absolute w-1 h-1 bg-white rounded-full opacity-20 animate-pulse"
+            className="absolute w-2 h-2 bg-gradient-to-r from-cyan-400 to-blue-400 rounded-full opacity-30 animate-pulse"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
